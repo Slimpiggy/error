@@ -1,0 +1,60 @@
+package FinalExams;
+
+import java.util.*;
+
+public class Task1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, List<String>> magicians = new LinkedHashMap<>();
+        List<String> spellBook = new ArrayList<>();
+        System.out.println();
+
+        while (!input.equals("End")) {
+
+            if (input.contains("Enroll")) {
+                String heroToEnroll = input.split("\\s+")[1];
+                if (magicians.containsKey(heroToEnroll)) {
+                    System.out.printf("%s is already enrolled.%n", heroToEnroll);
+                } else {
+                    magicians.put(heroToEnroll, new ArrayList<>());
+                }
+
+            } else if (input.contains("Learn")) {
+                String heroName = input.split("\\s+")[1];
+                String spellToLearn = input.split("\\s+")[2];
+
+                if (!magicians.containsKey(heroName)) {
+                    System.out.println(heroName + " doesn't exist.");
+                } else {
+                    if (magicians.get(heroName).contains(spellToLearn)) {
+                        System.out.printf("%s has already learnt %s.%n", heroName, spellToLearn);
+                    } else {
+                        magicians.get(heroName).add(spellToLearn);
+                    }
+                }
+
+            } else if (input.contains("Unlearn")) {
+                String hero = input.split("\\s+")[1];
+                String spellToRemove = input.split("\\s+")[2];
+
+                if (!magicians.containsKey(hero)) {
+                    System.out.println(hero + " doesn't exist.");
+                } else {
+                    if (magicians.get(hero).contains(spellToRemove)) {
+                        magicians.get(hero).remove(spellToRemove);
+                    } else {
+                        System.out.println(hero + " doesn't know " + spellToRemove + ".");
+                    }
+                }
+            }
+            input = scanner.nextLine();
+        }
+
+        System.out.println("Heroes:");
+        magicians.entrySet().forEach(entry ->{
+            System.out.println("== " + entry.getKey() + ": " + entry.getValue());
+        });
+    }
+}
